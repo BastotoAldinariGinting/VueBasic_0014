@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ judul }}</h1>
+
+        <p>{{ keterangan }}</p>
+
+        <div>
+            <input v-model="nomor" placeholder="masukkan angka..." />
+            <button @click="tebak">Tebak</button>
+        </div>
+
+        <div v-if="isi == 1">
+            <span v-if="nomor == ans">
+                Selamat, tebakan kamu benar.
+            </span>
+    
+            <span v-else>
+                Tebakan kamu salah.
+                <button @click="ulangi">Tebak lagi</button>
+            </span>
+        </div>
+        <div v-else-if="chance == 0">
+            Yahh, kesempatan kamu habis..
+        </div>
+       
+        <p>{{ footer.nama }} | {{ footer.npm }} | {{ footer.kelas }}</p>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            judul: "Tebak Angka",
+            keterangan: "Tebaklah angka dari 1-10",
+            nomor: "",
+            chance: 3,
+            isi: 0,
+            ans: Math.floor((Math.random() * 10) + 1),
+            footer: {
+                nama: 'Bastoto Aldinari Ginting',
+                npm: '180710014',
+                kelas: 'PAW B'
+            }
+        },
+        methods: {
+            ulangi() {
+                chance--;
+            },
+            tebak() {
+                isi=1;
+            },
+        },
+    })
+</script>
+</html>
