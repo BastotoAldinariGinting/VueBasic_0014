@@ -12,23 +12,31 @@
 
         <p>{{ keterangan }}</p>
 
-        <div>
-            <input v-model="nomor" placeholder="masukkan angka..." />
-            <button @click="tebak">Tebak</button>
+        <div v-if="chance == 0">
+            Yah, kesempatan kamu habis X(
+            <br>
+            Mau main lagi?
+            <br>
+            <button @click="ulang">Lagi</button>
         </div>
+        <div v-else>
+            <div>
+                <input v-model="nomor" placeholder="masukkan angka..." :disabled="disable == 1"/>
+                <button @click="tebak" :disabled="disable == 1">Tebak</button>
+            </div>
 
-        <div v-if="isi == 1">
-            <span v-if="nomor == ans">
-                Selamat, tebakan kamu benar.
+            <p>Kunci jawaban : {{ ans }}</p>
+
+            <span v-if="isi == 1">
+                Selamat, tebakan kamu benar :D
+                <br>
+                <button @click="ulang">Main lagi?</button>
             </span>
-    
-            <span v-else>
-                Tebakan kamu salah.
-                <button @click="ulangi">Tebak lagi</button>
+            <span v-else-if="isi == 0">
+                Tebakan kamu salah :(
+                <br>
+                Kesempatan : {{ chance }}
             </span>
-        </div>
-        <div v-else-if="chance == 0">
-            Yahh, kesempatan kamu habis..
         </div>
        
         <p>{{ footer.nama }} | {{ footer.npm }} | {{ footer.kelas }}</p>
@@ -40,9 +48,10 @@
         data: {
             judul: "Tebak Angka",
             keterangan: "Tebaklah angka dari 1-10",
-            nomor: "",
+            nomor: 0,
             chance: 3,
-            isi: 0,
+            isi: -1,
+            disable: 0,
             ans: Math.floor((Math.random() * 10) + 1),
             footer: {
                 nama: 'Bastoto Aldinari Ginting',
@@ -51,11 +60,22 @@
             }
         },
         methods: {
-            ulangi() {
-                chance--;
-            },
             tebak() {
-                isi=1;
+                if(this.nomor == this.ans){
+                    this.isi = 1;
+                    this.disable = 1;
+                }
+                else{
+                    this.chance--;
+                    this.isi = 0;
+                }
+            },
+            ulang() {
+                this.disable = 0;
+                this.nomor = 0;
+                this.chance = 3;
+                this.isi = -1;
+                this.ans = Math.floor((Math.random() * 10) + 1);
             },
         },
     })
