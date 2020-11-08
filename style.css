@@ -1,0 +1,9 @@
+html {
+    height: 100%;
+}
+
+body {
+    padding-top: 25px;
+    background-color: hsl(33, 100%, 67%);
+    min-height: 100%;
+}
